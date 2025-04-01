@@ -5,6 +5,7 @@ from langchain.schema import HumanMessage
 # Load environment variables
 load_dotenv()
 
+
 @tool
 def multiply(first_int: int, second_int: int) -> int:
     """Multiply two integers together."""
