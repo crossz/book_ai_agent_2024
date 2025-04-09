@@ -21,8 +21,7 @@ from llama_index.llms.openai_like import OpenAILike
 # llm = OpenAI(api_key=os.getenv("SILICONFLOW_API_KEY"), 
 #             base_url="https://api.siliconflow.cn/v1")
 
-
-llm = OpenAILike(
+llm_s = OpenAILike(
     api_base="https://api.siliconflow.cn/v1",
     api_key=os.getenv("SILICONFLOW_API_KEY"),
     # model="Qwen/Qwen2.5-32B-Instruct", # works
@@ -30,6 +29,15 @@ llm = OpenAILike(
     is_chat_model=True,  # Required for chat completions
     timeout=60  # Adjust if encountering timeout errors
 )
+llm_b = OpenAILike(
+    api_base='https://qianfan.baidubce.com/v2',
+    api_key=os.getenv("BAIDU_API_KEY"),
+    # model="Qwen/Qwen2.5-32B-Instruct", # works
+    model="deepseek-v3-241226", # reactagent is not smart enough to 进行复杂分析 
+    is_chat_model=True,  # Required for chat completions
+    timeout=60  # Adjust if encountering timeout errors
+)
+llm = llm_b
 Settings.llm = llm
 
 A_docs = SimpleDirectoryReader(
@@ -100,7 +108,82 @@ query_engine_tools = [
 ]
 
 
+# # customize prompt for reactagent
+from llama_index.core import PromptTemplate
+from llama_index.core.prompts import RichPromptTemplate
+custom_react_prompt2 = PromptTemplate(
+    """
+    ## Output Format
+    To answer the question, please use the following format:
 
+    ```
+    Thought: [Your thought process here]
+    Action Input: [Input to the tool in JSON format]
+    a row of bar to seperate the output.
+    Observation: [Result of the tool]
+    ```
+    """
+)
+
+custom_react_prompt = PromptTemplate(
+    """
+    You are an intelligent financial analyst designed to compare the financial data of two companies. 
+    Your task is to extract and compare financial data from the provided RAG system. 
+
+    ## Tools
+    You have access to a wide variety of tools. You are responsible for using the tools in any sequence you deem appropriate to complete the task at hand.
+    This may require breaking the task into subtasks and using different tools to complete each subtask.
+
+    You have access to the following tools:
+    {tool_desc}
+
+    ## Workflow
+    1. **Extract Financial Data**: 
+       - First, retrieve sufficient financial data for each company. Ensure you gather enough data to perform a meaningful comparison.
+    
+    2. **Compare Financial Data**:
+       - After collecting all necessary financial data for both companies, analyze and compare the data.
+       - Provide a structured comparison highlighting key differences and similarities.
+
+    ## Output Format
+    To answer the question, please use the following format:
+
+    ```
+    Thought: [Your thought process here]
+    Action: [Tool name if using a tool]
+    Action Input: [Input to the tool in JSON format]
+    Observation: [Result of the tool]
+    ```
+
+    After collecting all necessary data, provide the final answer in the following format:
+
+    ```
+    Answer: 
+    - Company A:
+      - Revenue: [Value]
+      - Profit: [Value]
+      - Assets: [Value]
+      - Liabilities: [Value]
+    - Company B:
+      - Revenue: [Value]
+      - Profit: [Value]
+      - Assets: [Value]
+      - Liabilities: [Value]
+    - Comparison:
+      - [Key insights and differences between the two companies]
+    ```
+
+    ## Rules
+    - Always start with a Thought.
+    - Do not attempt to compare the companies until you have collected sufficient financial data for both.
+    - Ensure the financial data is comprehensive enough to support a meaningful comparison.
+    - Use valid JSON format for tool inputs.
+    - If you cannot retrieve enough data, explain the limitations in your answer.
+
+    ## Current Question
+    Compare the financial data of Company A and Company B.
+    """
+)
 
 
 
@@ -109,5 +192,19 @@ from llama_index.core.agent import ReActAgent
 agent = ReActAgent.from_tools(query_engine_tools, llm=llm, verbose=True)
 
 
+
+
+
+
+# # 打印系统提示头
+prompt_dict = agent.get_prompts()
+# print("Original Think Prompt:\n", prompt_dict)
+# print("Original Think Prompt:\n", prompt_dict["agent_worker:system_prompt"].template)
+
+prompt_dict["agent_worker:system_prompt"].template = custom_react_prompt.template
+agent.update_prompts(prompt_dict)
+
+
 # 让Agent完成任务
-agent.chat("对比所有公司的 Revenue，进行分析")
+# agent.chat("对比所有公司的 Revenue, 进行分析")
+agent.chat("对比这两家公司的财务数据")
