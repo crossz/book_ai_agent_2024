@@ -121,8 +121,8 @@ custom_react_prompt2 = PromptTemplate(
     以尽量口语化的、幽默搞笑的方式展示这个分析内容
 
     ```
-    Thought: <Your thought process here>
-    Action: <工具名字>
+    Thought: [根据用户的问题，分析出下一步的行动]
+    Action: <根据思考的内容选择的工具>
     Action Input: <Input to the tool in JSON format>
     Observation: <工具调用后得到的结果>
     ```
@@ -204,7 +204,7 @@ prompt_dict = agent.get_prompts()
 # print("Original Think Prompt:\n", prompt_dict)
 # print("Original Think Prompt:\n", prompt_dict["agent_worker:system_prompt"].template)
 
-prompt_dict["agent_worker:system_prompt"].template = custom_react_prompt.template
+prompt_dict["agent_worker:system_prompt"].template = custom_react_prompt2.template
 agent.update_prompts(prompt_dict)
 
 
