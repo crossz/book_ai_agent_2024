@@ -15,9 +15,10 @@ Settings.embed_model = embed_model
 
 
 # 配置大模型
-# from llama_index.llms.openai import OpenAI
+from llama_index.llms.openai import OpenAI
+# llm = OpenAI(model="gpt-3.5-turbo-0613")
+
 from llama_index.llms.openai_like import OpenAILike
-# # llm = OpenAI(model="gpt-3.5-turbo-0613")
 # llm = OpenAI(api_key=os.getenv("SILICONFLOW_API_KEY"), 
 #             base_url="https://api.siliconflow.cn/v1")
 
@@ -111,17 +112,23 @@ query_engine_tools = [
 # # customize prompt for reactagent
 from llama_index.core import PromptTemplate
 from llama_index.core.prompts import RichPromptTemplate
+
 custom_react_prompt2 = PromptTemplate(
     """
+    你可以用的工具有： {tool_desc}
+
     ## Output Format
-    To answer the question, please use the following format:
+    以尽量口语化的、幽默搞笑的方式展示这个分析内容
 
     ```
-    Thought: [Your thought process here]
-    Action Input: [Input to the tool in JSON format]
-    a row of bar to seperate the output.
-    Observation: [Result of the tool]
+    Thought: <Your thought process here>
+    Action: <工具名字>
+    Action Input: <Input to the tool in JSON format>
+    Observation: <工具调用后得到的结果>
     ```
+
+    After collecting all necessary data, provide the final answer.
+
     """
 )
 
@@ -192,10 +199,6 @@ from llama_index.core.agent import ReActAgent
 agent = ReActAgent.from_tools(query_engine_tools, llm=llm, verbose=True)
 
 
-
-
-
-
 # # 打印系统提示头
 prompt_dict = agent.get_prompts()
 # print("Original Think Prompt:\n", prompt_dict)
@@ -206,5 +209,4 @@ agent.update_prompts(prompt_dict)
 
 
 # 让Agent完成任务
-# agent.chat("对比所有公司的 Revenue, 进行分析")
 agent.chat("对比这两家公司的财务数据")
