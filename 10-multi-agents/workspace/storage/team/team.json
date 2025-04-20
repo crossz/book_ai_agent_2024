@@ -1,0 +1,279 @@
+{
+    "env": {
+        "desc": "",
+        "roles": {
+            "Process orders": {
+                "name": "OrderProcessor",
+                "profile": "Process orders",
+                "goal": "",
+                "constraints": "",
+                "desc": "",
+                "is_human": false,
+                "role_id": "",
+                "states": [
+                    "0. ProcessOrder"
+                ],
+                "actions": [
+                    {
+                        "name": "ProcessOrder",
+                        "i_context": "",
+                        "prefix": "You are a Process orders, named OrderProcessor, your goal is . ",
+                        "desc": "",
+                        "llm_name_or_type": null,
+                        "PROMPT_TEMPLATE": "\n    Process the following order: {order_details}.\n    ",
+                        "__module_class_name": "__main__.ProcessOrder"
+                    }
+                ],
+                "rc": {
+                    "memory": {
+                        "storage": [],
+                        "index": {
+                            "metagpt.actions.add_requirement.UserRequirement": []
+                        },
+                        "ignore_id": false
+                    },
+                    "working_memory": {
+                        "storage": [],
+                        "index": {},
+                        "ignore_id": false
+                    },
+                    "state": 0,
+                    "watch": [
+                        "metagpt.actions.add_requirement.UserRequirement"
+                    ],
+                    "react_mode": "react",
+                    "max_react_loop": 1
+                },
+                "addresses": [
+                    "__main__.OrderProcessor",
+                    "OrderProcessor"
+                ],
+                "planner": {
+                    "plan": {
+                        "goal": "",
+                        "context": "",
+                        "tasks": [],
+                        "task_map": {},
+                        "current_task_id": ""
+                    },
+                    "working_memory": {
+                        "storage": [],
+                        "index": {},
+                        "ignore_id": false
+                    },
+                    "auto_run": false
+                },
+                "recovered": false,
+                "latest_observed_msg": {
+                    "id": "280f3aee160f407d9a21c1a5510dcf1c",
+                    "content": "A bouquet of red roses",
+                    "instruct_content": null,
+                    "role": "Human",
+                    "cause_by": "metagpt.actions.add_requirement.UserRequirement",
+                    "sent_from": "",
+                    "send_to": [
+                        "<all>"
+                    ]
+                },
+                "__module_class_name": "__main__.OrderProcessor"
+            },
+            "Manage inventory": {
+                "name": "InventoryManager",
+                "profile": "Manage inventory",
+                "goal": "",
+                "constraints": "",
+                "desc": "",
+                "is_human": false,
+                "role_id": "",
+                "states": [
+                    "0. ManageInventory"
+                ],
+                "actions": [
+                    {
+                        "name": "ManageInventory",
+                        "i_context": "",
+                        "prefix": "You are a Manage inventory, named InventoryManager, your goal is . ",
+                        "desc": "",
+                        "llm_name_or_type": null,
+                        "PROMPT_TEMPLATE": "\n    Update inventory based on the following order: {order_details}.\n    ",
+                        "__module_class_name": "__main__.ManageInventory"
+                    }
+                ],
+                "rc": {
+                    "memory": {
+                        "storage": [
+                            {
+                                "id": "280f3aee160f407d9a21c1a5510dcf1c",
+                                "content": "A bouquet of red roses",
+                                "instruct_content": null,
+                                "role": "Human",
+                                "cause_by": "metagpt.actions.add_requirement.UserRequirement",
+                                "sent_from": "",
+                                "send_to": [
+                                    "<all>"
+                                ]
+                            }
+                        ],
+                        "index": {
+                            "metagpt.actions.add_requirement.UserRequirement": [
+                                {
+                                    "id": "280f3aee160f407d9a21c1a5510dcf1c",
+                                    "content": "A bouquet of red roses",
+                                    "instruct_content": null,
+                                    "role": "Human",
+                                    "cause_by": "metagpt.actions.add_requirement.UserRequirement",
+                                    "sent_from": "",
+                                    "send_to": [
+                                        "<all>"
+                                    ]
+                                }
+                            ]
+                        },
+                        "ignore_id": false
+                    },
+                    "working_memory": {
+                        "storage": [],
+                        "index": {},
+                        "ignore_id": false
+                    },
+                    "state": -1,
+                    "watch": [
+                        "__main__.ProcessOrder"
+                    ],
+                    "react_mode": "react",
+                    "max_react_loop": 1
+                },
+                "addresses": [
+                    "__main__.InventoryManager",
+                    "InventoryManager"
+                ],
+                "planner": {
+                    "plan": {
+                        "goal": "",
+                        "context": "",
+                        "tasks": [],
+                        "task_map": {},
+                        "current_task_id": ""
+                    },
+                    "working_memory": {
+                        "storage": [],
+                        "index": {},
+                        "ignore_id": false
+                    },
+                    "auto_run": false
+                },
+                "recovered": false,
+                "latest_observed_msg": null,
+                "__module_class_name": "__main__.InventoryManager"
+            },
+            "Handle customer service": {
+                "name": "CustomerServiceRepresentative",
+                "profile": "Handle customer service",
+                "goal": "",
+                "constraints": "",
+                "desc": "",
+                "is_human": false,
+                "role_id": "",
+                "states": [
+                    "0. HandleCustomerService"
+                ],
+                "actions": [
+                    {
+                        "name": "HandleCustomerService",
+                        "i_context": "",
+                        "prefix": "You are a Handle customer service, named CustomerServiceRepresentative, your goal is . ",
+                        "desc": "",
+                        "llm_name_or_type": null,
+                        "PROMPT_TEMPLATE": "\n    Handle the following customer service request: {request_details}.\n    ",
+                        "__module_class_name": "__main__.HandleCustomerService"
+                    }
+                ],
+                "rc": {
+                    "memory": {
+                        "storage": [
+                            {
+                                "id": "280f3aee160f407d9a21c1a5510dcf1c",
+                                "content": "A bouquet of red roses",
+                                "instruct_content": null,
+                                "role": "Human",
+                                "cause_by": "metagpt.actions.add_requirement.UserRequirement",
+                                "sent_from": "",
+                                "send_to": [
+                                    "<all>"
+                                ]
+                            }
+                        ],
+                        "index": {
+                            "metagpt.actions.add_requirement.UserRequirement": [
+                                {
+                                    "id": "280f3aee160f407d9a21c1a5510dcf1c",
+                                    "content": "A bouquet of red roses",
+                                    "instruct_content": null,
+                                    "role": "Human",
+                                    "cause_by": "metagpt.actions.add_requirement.UserRequirement",
+                                    "sent_from": "",
+                                    "send_to": [
+                                        "<all>"
+                                    ]
+                                }
+                            ]
+                        },
+                        "ignore_id": false
+                    },
+                    "working_memory": {
+                        "storage": [],
+                        "index": {},
+                        "ignore_id": false
+                    },
+                    "state": 0,
+                    "watch": [
+                        "metagpt.actions.add_requirement.UserRequirement",
+                        "__main__.ManageInventory"
+                    ],
+                    "react_mode": "react",
+                    "max_react_loop": 1
+                },
+                "addresses": [
+                    "__main__.CustomerServiceRepresentative",
+                    "CustomerServiceRepresentative"
+                ],
+                "planner": {
+                    "plan": {
+                        "goal": "",
+                        "context": "",
+                        "tasks": [],
+                        "task_map": {},
+                        "current_task_id": ""
+                    },
+                    "working_memory": {
+                        "storage": [],
+                        "index": {},
+                        "ignore_id": false
+                    },
+                    "auto_run": false
+                },
+                "recovered": false,
+                "latest_observed_msg": {
+                    "id": "280f3aee160f407d9a21c1a5510dcf1c",
+                    "content": "A bouquet of red roses",
+                    "instruct_content": null,
+                    "role": "Human",
+                    "cause_by": "metagpt.actions.add_requirement.UserRequirement",
+                    "sent_from": "",
+                    "send_to": [
+                        "<all>"
+                    ]
+                },
+                "__module_class_name": "__main__.CustomerServiceRepresentative"
+            }
+        },
+        "history": "\nHuman: A bouquet of red roses"
+    },
+    "investment": 3.0,
+    "idea": "A bouquet of red roses",
+    "context": {
+        "workdir": "",
+        "kwargs": {},
+        "cost_manager": "{\"total_prompt_tokens\":0,\"total_completion_tokens\":0,\"total_budget\":0.0,\"max_budget\":3.0,\"total_cost\":0.0,\"token_costs\":{\"gpt-3.5-turbo\":{\"prompt\":0.0015,\"completion\":0.002},\"gpt-3.5-turbo-0301\":{\"prompt\":0.0015,\"completion\":0.002},\"gpt-3.5-turbo-0613\":{\"prompt\":0.0015,\"completion\":0.002},\"gpt-3.5-turbo-16k\":{\"prompt\":0.003,\"completion\":0.004},\"gpt-3.5-turbo-16k-0613\":{\"prompt\":0.003,\"completion\":0.004},\"gpt-35-turbo\":{\"prompt\":0.0015,\"completion\":0.002},\"gpt-35-turbo-16k\":{\"prompt\":0.003,\"completion\":0.004},\"gpt-3.5-turbo-1106\":{\"prompt\":0.001,\"completion\":0.002},\"gpt-3.5-turbo-0125\":{\"prompt\":0.001,\"completion\":0.002},\"gpt-4-0314\":{\"prompt\":0.03,\"completion\":0.06},\"gpt-4\":{\"prompt\":0.03,\"completion\":0.06},\"gpt-4-32k\":{\"prompt\":0.06,\"completion\":0.12},\"gpt-4-32k-0314\":{\"prompt\":0.06,\"completion\":0.12},\"gpt-4-0613\":{\"prompt\":0.06,\"completion\":0.12},\"gpt-4-turbo-preview\":{\"prompt\":0.01,\"completion\":0.03},\"gpt-4-1106-preview\":{\"prompt\":0.01,\"completion\":0.03},\"gpt-4-0125-preview\":{\"prompt\":0.01,\"completion\":0.03},\"gpt-4-turbo\":{\"prompt\":0.01,\"completion\":0.03},\"gpt-4-turbo-2024-04-09\":{\"prompt\":0.01,\"completion\":0.03},\"gpt-4-vision-preview\":{\"prompt\":0.01,\"completion\":0.03},\"gpt-4-1106-vision-preview\":{\"prompt\":0.01,\"completion\":0.03},\"gpt-4o\":{\"prompt\":0.005,\"completion\":0.015},\"gpt-4o-mini\":{\"prompt\":0.00015,\"completion\":0.0006},\"gpt-4o-mini-2024-07-18\":{\"prompt\":0.00015,\"completion\":0.0006},\"gpt-4o-2024-05-13\":{\"prompt\":0.005,\"completion\":0.015},\"gpt-4o-2024-08-06\":{\"prompt\":0.0025,\"completion\":0.01},\"o1-preview\":{\"prompt\":0.015,\"completion\":0.06},\"o1-preview-2024-09-12\":{\"prompt\":0.015,\"completion\":0.06},\"o1-mini\":{\"prompt\":0.003,\"completion\":0.012},\"o1-mini-2024-09-12\":{\"prompt\":0.003,\"completion\":0.012},\"text-embedding-ada-002\":{\"prompt\":0.0004,\"completion\":0.0},\"glm-3-turbo\":{\"prompt\":0.0007,\"completion\":0.0007},\"glm-4\":{\"prompt\":0.014,\"completion\":0.014},\"glm-4-flash\":{\"prompt\":0.0,\"completion\":0.0},\"glm-4-plus\":{\"prompt\":0.007,\"completion\":0.007},\"gemini-1.5-flash\":{\"prompt\":0.000075,\"completion\":0.0003},\"gemini-1.5-pro\":{\"prompt\":0.0035,\"completion\":0.0105},\"gemini-1.0-pro\":{\"prompt\":0.0005,\"completion\":0.0015},\"moonshot-v1-8k\":{\"prompt\":0.012,\"completion\":0.012},\"moonshot-v1-32k\":{\"prompt\":0.024,\"completion\":0.024},\"moonshot-v1-128k\":{\"prompt\":0.06,\"completion\":0.06},\"open-mistral-7b\":{\"prompt\":0.00025,\"completion\":0.00025},\"open-mixtral-8x7b\":{\"prompt\":0.0007,\"completion\":0.0007},\"mistral-small-latest\":{\"prompt\":0.002,\"completion\":0.006},\"mistral-medium-latest\":{\"prompt\":0.0027,\"completion\":0.0081},\"mistral-large-latest\":{\"prompt\":0.008,\"completion\":0.024},\"claude-instant-1.2\":{\"prompt\":0.0008,\"completion\":0.0024},\"claude-2.0\":{\"prompt\":0.008,\"completion\":0.024},\"claude-2.1\":{\"prompt\":0.008,\"completion\":0.024},\"claude-3-sonnet-20240229\":{\"prompt\":0.003,\"completion\":0.015},\"claude-3-5-sonnet\":{\"prompt\":0.003,\"completion\":0.015},\"claude-3-5-sonnet-v2\":{\"prompt\":0.003,\"completion\":0.015},\"claude-3-5-sonnet-20240620\":{\"prompt\":0.003,\"completion\":0.015},\"claude-3-opus-20240229\":{\"prompt\":0.015,\"completion\":0.075},\"claude-3-haiku-20240307\":{\"prompt\":0.00025,\"completion\":0.00125},\"yi-34b-chat-0205\":{\"prompt\":0.0003,\"completion\":0.0003},\"yi-34b-chat-200k\":{\"prompt\":0.0017,\"completion\":0.0017},\"yi-large\":{\"prompt\":0.0028,\"completion\":0.0028},\"microsoft/wizardlm-2-8x22b\":{\"prompt\":0.00108,\"completion\":0.00108},\"meta-llama/llama-3-70b-instruct\":{\"prompt\":0.008,\"completion\":0.008},\"llama3-70b-8192\":{\"prompt\":0.0059,\"completion\":0.0079},\"openai/gpt-3.5-turbo-0125\":{\"prompt\":0.0005,\"completion\":0.0015},\"openai/gpt-4-turbo-preview\":{\"prompt\":0.01,\"completion\":0.03},\"openai/o1-preview\":{\"prompt\":0.015,\"completion\":0.06},\"openai/o1-mini\":{\"prompt\":0.003,\"completion\":0.012},\"anthropic/claude-3-opus\":{\"prompt\":0.015,\"completion\":0.075},\"anthropic/claude-3.5-sonnet\":{\"prompt\":0.003,\"completion\":0.015},\"google/gemini-pro-1.5\":{\"prompt\":0.0025,\"completion\":0.0075},\"deepseek-chat\":{\"prompt\":0.00014,\"completion\":0.00028},\"deepseek-coder\":{\"prompt\":0.00014,\"completion\":0.00028},\"doubao-lite-4k-240515\":{\"prompt\":0.000043,\"completion\":0.000086},\"doubao-lite-32k-240515\":{\"prompt\":0.000043,\"completion\":0.000086},\"doubao-lite-128k-240515\":{\"prompt\":0.00011,\"completion\":0.00014},\"doubao-pro-4k-240515\":{\"prompt\":0.00011,\"completion\":0.00029},\"doubao-pro-32k-240515\":{\"prompt\":0.00011,\"completion\":0.00029},\"doubao-pro-128k-240515\":{\"prompt\":0.0007,\"completion\":0.0013},\"llama3-70b-llama3-70b-instruct\":{\"prompt\":0.0,\"completion\":0.0},\"llama3-8b-llama3-8b-instruct\":{\"prompt\":0.0,\"completion\":0.0}}}"
+    }
+}
