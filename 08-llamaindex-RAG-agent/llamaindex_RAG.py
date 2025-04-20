@@ -1,6 +1,6 @@
 # 加载电商财报数据
 from llama_index.core import SimpleDirectoryReader, Settings
-from llama_index.embeddings.huggingface  import HuggingFaceEmbedding 
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding 
 
 import os
 from dotenv import load_dotenv

@@ -1,0 +1,7 @@
+llm:
+  api_type: "qianfan"
+  model: "ERNIE-Bot-4"
+  base_url: "https://qianfan.baidubce.com/v1"
+  # api_key: "bce-v3/ALTAK-4KzzdHtj4j06yHmDD8HeN/de8b09e12977803a80d20f004e8922770e7590e1"
+  api_key: "aRGzGlonWlMv8UNg96O2jkbi"
+  secret_key: "sXFbyKNtUrTzeMB1y5ui8SrBxNAZjwPK"
