@@ -42,7 +42,6 @@ pydantic==2.11.3
 pydantic-core==2.33.1
 pyjwt==2.10.1
 python-dotenv==1.1.0
-pywin32==310
 regex==2024.11.6
 requests==2.32.3
 six==1.17.0
