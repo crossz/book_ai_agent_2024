@@ -58,8 +58,8 @@ class CommentAnalyzer:
         
         # 生成词云
         wordcloud = WordCloud(
-            # font_path='/System/Library/Fonts/PingFang.ttc',  # macOS 中文字体
-            font_path='/System/Library/Fonts/STHeiti Light.ttc',  # macOS 中文字体
+            # font_path='/System/Library/Fonts/STHeiti Light.ttc',  # macOS 中文字体
+            font_path='./STHeiti Light.ttc',  # codespace 中
             width=1200,
             height=800,
             background_color='white'
