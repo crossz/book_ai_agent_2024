@@ -11,7 +11,6 @@ dependencies = [
     { name = "annotated-types" },
     { name = "anyio" },
     { name = "asyncer" },
-    { name = "autogen" },
     { name = "autogen-agentchat" },
     { name = "autogen-core" },
     { name = "autogen-ext" },
@@ -71,7 +70,6 @@ requires-dist = [
     { name = "annotated-types", specifier = "==0.7.0" },
     { name = "anyio", specifier = "==4.9.0" },
     { name = "asyncer", specifier = "==0.0.8" },
-    { name = "autogen", specifier = "==0.8.7" },
     { name = "autogen-agentchat", specifier = "==0.5.3" },
     { name = "autogen-core", specifier = "==0.5.3" },
     { name = "autogen-ext", specifier = "==0.5.3" },
@@ -166,18 +164,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ff/67/7ea59c3e69eaeee42e7fc91a5be67ca5849c8979acac2b920249760c6af2/asyncer-0.0.8.tar.gz", hash = "sha256:a589d980f57e20efb07ed91d0dbe67f1d2fd343e7142c66d3a099f05c620739c", size = 18217 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/8a/04/15b6ca6b7842eda2748bda0a0af73f2d054e9344320f8bba01f994294bcb/asyncer-0.0.8-py3-none-any.whl", hash = "sha256:5920d48fc99c8f8f0f1576e1882f5022885589c5fcbc46ce4224ec3e53776eeb", size = 9209 },
-]
-
-[[package]]
-name = "autogen"
-version = "0.8.7"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pyautogen" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/34/36/87d20ac83d5904b5e7ab1a714a53096e844a0243c8e208e43c68fbb3972a/autogen-0.8.7.tar.gz", hash = "sha256:50705c5e840f15be66c1de84716de14d937697facb43994af4d445248aff7ab2", size = 42563 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/ab/28/aca5804a9f4a182b638848dde10b7f793888a67c94f86db8030bd34f5aba/autogen-0.8.7-py3-none-any.whl", hash = "sha256:e891bf8a1eb6fdbd3f6c5049427789fbc8df58c0f14c9233e504106d7fae2c3c", size = 13626 },
 ]
 
 [[package]]
