@@ -3,120 +3,125 @@ import autogen
 import asyncio
 import os
 from dotenv import load_dotenv
-load_dotenv()  
+import logging
+from typing import List, Optional
 
-#配置大模型
-# llm_config = {
-#     "config_list": [{"model": "gpt-4", "api_key": 'XXXXX'}],
-# }
+# 配置日志
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# 加载环境变量
+load_dotenv()
+
+# 配置大模型
 llm_config = {
-    "config_list": [{
-        "model": "deepseek-v3-241226",
-        "api_key": os.getenv("BAIDU_API_KEY"),
-        "base_url": "https://qianfan.baidubce.com/v2"
-    }],
-    "timeout": 100,
+    "config_list": [
+        {
+            "model": "deepseek-v3-241226",
+            "api_key": os.getenv("BAIDU_API_KEY"),
+            "base_url": "https://qianfan.baidubce.com/v2"
+        }
+    ],
+    "timeout": 120,
     "temperature": 0.3,
+    "max_tokens": 2000
 }
 
 # 定义鲜花电商的运营任务
-inventory_tasks = [
-    """查看当前库存中各种鲜花的数量，并报告哪些鲜花库存不足。""",
-    """根据过去一个月的销售数据，预测接下来一个月哪些鲜花的需求量会增加。""",
-]
+tasks = {
+    "inventory": [
+        "分析当前库存中各种鲜花的数量，生成库存报告，并指出哪些鲜花库存不足。",
+        "基于历史销售数据，预测未来一个月的鲜花需求趋势。"
+    ],
+    "market_research": [
+        "分析当前市场趋势，识别最受欢迎的鲜花种类及其原因。"
+    ],
+    "content_creation": [
+        "根据提供的信息，撰写一篇吸引人的博客文章，介绍最受欢迎的鲜花及选购技巧。"
+    ]
+}
 
-market_research_tasks = ["""分析市场趋势，找出当前最受欢迎的鲜花种类及其可能的原因。"""]
+# 创建Agent角色配置
+inventory_config = {
+    "name": "库存管理专家",
+    "system_message": "你是一位经验丰富的库存管理专家，擅长分析库存数据并提供优化建议。",
+    "llm_config": llm_config,
+    "max_consecutive_auto_reply": 3,
+    "human_input_mode": "NEVER"
+}
 
-content_creation_tasks = ["""利用提供的信息，撰写一篇吸引人的博客文章，介绍最受欢迎的鲜花及选购技巧。"""]
+market_research_config = {
+    "name": "市场分析师",
+    "system_message": "你是一位专业的市场分析师，擅长分析市场趋势和消费者行为。",
+    "llm_config": llm_config,
+    "max_consecutive_auto_reply": 3,
+    "human_input_mode": "NEVER"
+}
 
-# 创建Agent角色
-inventory_assistant = autogen.AssistantAgent(
-    name="库存管理助理",
-    llm_config= llm_config,
-)
-market_research_assistant = autogen.AssistantAgent(
-    name="市场研究助理",
-    llm_config= llm_config,
-)
-content_creator = autogen.AssistantAgent(
-    name="内容创作助理",
-    llm_config= llm_config,
-    system_message="""
-        你是一名专业的写作者，以洞察力强和文章引人入胜著称。
-        你能将复杂的概念转化为引人入胜的叙述。
-        当一切完成后，请回复“结束”。
-        """,
-)
+content_creator_config = {
+    "name": "内容创作专家",
+    "system_message": "你是一位专业的内容创作者，擅长撰写引人入胜的文章。你的文章结构清晰，内容丰富。",
+    "llm_config": llm_config,
+    "max_consecutive_auto_reply": 3,
+    "human_input_mode": "NEVER"
+}
+
+# 创建代理
+inventory_agent = autogen.AssistantAgent(**inventory_config)
+market_research_agent = autogen.AssistantAgent(**market_research_config)
+content_creator_agent = autogen.AssistantAgent(**content_creator_config)
 
 # 创建用户代理
-user_proxy_auto = autogen.UserProxyAgent(
-    name="用户代理_自动",
-    human_input_mode="NEVER",
-    is_termination_msg=lambda x: x.get("content", "") and x.get("content", "").rstrip().endswith("结束"),
-    code_execution_config={
-        "last_n_messages": 1,
-        "work_dir": "tasks",
-        "use_docker": False,
-    },
-)
-
 user_proxy = autogen.UserProxyAgent(
     name="用户代理",
-    human_input_mode="ALWAYS",
-    is_termination_msg=lambda x: x.get("content", "") and x.get("content", "").rstrip().endswith("结束"),
+    human_input_mode="NEVER",
+    is_termination_msg=lambda x: x.get("content", "").rstrip().endswith("任务完成"),
     code_execution_config={
-        "last_n_messages": 1,
         "work_dir": "tasks",
         "use_docker": False,
+        "last_n_messages": 3,
+        "timeout": 300
     },
+    max_consecutive_auto_reply=3
 )
 
-# 发起对话
-# chat_results = autogen.initiate_chats(
-#     [
-#         {
-#             "sender": user_proxy_auto,
-#             "recipient": inventory_assistant,
-#             "message": inventory_tasks[0],
-#             "clear_history": True,
-#             "silent": False,
-#             "summary_method": "last_msg",
-#         },
-#         {
-#             "sender": user_proxy_auto,
-#             "recipient": market_research_assistant,
-#             "message": market_research_tasks[0],
-#             "max_turns": 2,
-#             "summary_method": "reflection_with_llm",
-#         },
-#         {
-#             "sender": user_proxy,
-#             "recipient": content_creator,
-#             "message": content_creation_tasks[0],
-#             "carryover": "我希望在博客文章中包含一张数据表格或图表。",
-#         },
-#     ]
-# )
-# 发起对话，使用新的聊天启动方式
 async def run_chats():
-    # 库存管理对话
-    await user_proxy_auto.a_initiate_chat(
-        inventory_assistant,
-        message=inventory_tasks[0],
-        clear_history=True
-    )
-    # 市场研究对话
-    await user_proxy_auto.a_initiate_chat(
-        market_research_assistant,
-        message=market_research_tasks[0],
-        max_turns=2
-    )
-    # 内容创作对话
-    await user_proxy.a_initiate_chat(
-        content_creator,
-        message=content_creation_tasks[0],
-        carryover="我希望在博客文章中包含一张数据表格或图表。"
-    )
+    try:
+        # 启动库存管理对话
+        logger.info("启动库存管理对话...")
+        await user_proxy.a_initiate_chat(
+            inventory_agent,
+            message=tasks["inventory"][0],
+            clear_history=True,
+            max_consecutive_auto_reply=3
+        )
+
+        # 启动市场研究对话
+        logger.info("启动市场研究对话...")
+        await user_proxy.a_initiate_chat(
+            market_research_agent,
+            message=tasks["market_research"][0],
+            max_turns=3,
+            max_consecutive_auto_reply=3
+        )
+
+        # 启动内容创作对话
+        logger.info("启动内容创作对话...")
+        await user_proxy.a_initiate_chat(
+            content_creator_agent,
+            message=tasks["content_creation"][0],
+            carryover="请在文章中包含数据表格或图表以增强可读性。",
+            max_consecutive_auto_reply=3
+        )
+
+    except Exception as e:
+        logger.error(f"对话过程中出现错误: {str(e)}")
+        raise
 
 if __name__ == "__main__":
-    asyncio.run(run_chats())
+    try:
+        logger.info("开始执行多代理对话...")
+        asyncio.run(run_chats())
+        logger.info("所有对话已完成！")
+    except Exception as e:
+        logger.error(f"程序执行失败: {str(e)}")
